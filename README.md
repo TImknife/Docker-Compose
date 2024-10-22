@@ -46,7 +46,7 @@ This project contains a **bash script** for setting up Docker and Docker Compose
    - Add Docker's official GPG key and repository.
    - Install Docker and Docker Compose.
    - Enable Docker to start on boot.
-   - Test the installation with a simple Nginx container.
+   - Test the installation with a simple Wordpress Application.
 
 2. **Test Docker and Docker Compose**: After the installation, you can test if Docker and Docker Compose are working properly by running the provided `docker-compose.yml` file.
 
@@ -64,7 +64,7 @@ This project contains a **bash script** for setting up Docker and Docker Compose
    http://<server-ip>:8080
    ```
 
-   You should see the default **Nginx** welcome page.
+   You should see the default **Wordpress** welcome page.
 
 ### Stopping the Test Environment
 
