@@ -1,55 +1,40 @@
 version: '3.8'
 
 services:
-  # Database service
   db:
     image: mysql:5.7
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: appdb
-      MYSQL_USER: appuser
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - app-network
+      - wp-network
 
-  # Backend service (Node.js)
-  backend:
-    image: node:14
-    container_name: node_backend
-    working_dir: /app
-    volumes:
-      - ./backend:/app
-    environment:
-      DB_HOST: db
-      DB_USER: appuser
-      DB_PASS: password
-      DB_NAME: appdb
-    depends_on:
-      - db
-    command: sh -c "npm install && npm run start"
-    networks:
-      - app-network
-
-  # Web server service (Nginx)
-  web:
-    image: nginx:alpine
-    container_name: nginx_web
-    volumes:
-      - ./web:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_app
     ports:
       - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
     depends_on:
-      - backend
+      - db
     networks:
-      - app-network
+      - wp-network
 
 volumes:
   db_data:
+  wordpress_data:
 
 networks:
-  app-network:
+  wp-network:
     driver: bridge
